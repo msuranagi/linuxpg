@@ -23,3 +23,58 @@ curl -s $IMAGEBUILDER_TARBALL_URI | tar xz ./image-builder
 sudo install -m 0755 ./image-builder /usr/local/bin/image-builder
 cd -
 
+4) download rhel 9
+mkdir rheliso;cd rheliso
+wget https://access.cdn.redhat.com/content/origin/files/sha256/fe/febcc1359fd68faceff82d7eed8d21016e022a17e9c74e0e3f9dc3a78816b2bb/rhel-9.6-x86_64-dvd.iso?_auth_=1765553477_c9f70c5ae58102e6a3821d7c93c5a27f
+mv rhel* rhel-9.6-x86_64-dvd.iso
+sha256sum rhel-9.6-x86_64-dvd.iso
+
+5) 
+sudo adduser image-builder
+sudo usermod -aG sudo image-builder
+su image-builder
+cd /home/$USER
+
+   sudo apt update -y
+   sudo apt install jq make qemu-kvm libvirt-daemon-system libvirt-clients virtinst cpu-checker libguestfs-tools libosinfo-bin unzip -y
+   sudo snap install yq
+   sudo usermod -a -G kvm $USER
+   sudo chmod 666 /dev/kvm
+   sudo chown root:kvm /dev/kvm
+   mkdir -p /home/$USER/.ssh
+   echo "HostKeyAlgorithms +ssh-rsa" >> /home/$USER/.ssh/config
+   echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> /home/$USER/.ssh/config
+   sudo chmod 600 /home/$USER/.ssh/config
+   
+6) python 3.9 and above should be present
+ensure pip is installed, if not use below command
+sudo apt install python3-distutils
+python3 -m pip install --upgrade pip
+
+python3.9 -m pip install --user ansible-core==2.15.3
+python3.9 -m ansible --version
+
+
+
+// Optional
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.9 get-pip.py
+
+
+
+7) prepare baremetal.json
+
+{
+  "iso_url": "/home/image-builder/rheliso/rhel-9.6-x86_64-dvd.iso",
+  "iso_checksum": "febcc1359fd68faceff82d7eed8d21016e022a17e9c74e0e3f9dc3a78816b2bb",
+  "iso_checksum_type": "sha256",
+  "rhel_username": "*******",
+  "rhel_password": "*******"
+}
+
+//Optional
+export PACKER_GITHUB_API_TOKEN="xxxxxxxxxxxxxxxxxxx"
+
+8 ) build node image
+
+image-builder build --os redhat --hypervisor baremetal --release-channel 1-31 --baremetal-config baremetal.json
