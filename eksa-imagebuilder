@@ -1,0 +1,25 @@
+1) eksctl installation
+
+curl "https://github.com/eksctl-io/eksctl/releases/download/v0.219.0/eksctl_Linux_amd64.tar.gz ” \
+    --silent --location \
+    | tar xz -C /tmp
+sudo install -m 0755 /tmp/eksctl /usr/local/bin/eksctl
+
+
+2) eksctl-anywhere installation
+
+RELEASE_VERSION=v0.24.1
+EKS_ANYWHERE_TARBALL_URL="https://anywhere-assets.eks.amazonaws.com/releases/eks-a/110/artifacts/eks-a/v0.24.1/linux/amd64/eksctl-anywhere-v0.24.1-linux-amd64.tar.gz”
+curl $EKS_ANYWHERE_TARBALL_URL \
+    --silent --location \
+    | tar xz ./eksctl-anywhere
+sudo install -m 0755 ./eksctl-anywhere /usr/local/bin/eksctl-anywhere
+
+3) image builder installation
+
+BUNDLE_MANIFEST_URL=https://anywhere-assets.eks.amazonaws.com/releases/bundles/110/manifest.yaml
+IMAGEBUILDER_TARBALL_URI=https://anywhere-assets.eks.amazonaws.com/releases/bundles/110/artifacts/image-builder/v0.7.0/image-builder-linux-amd64.tar.gz
+curl -s $IMAGEBUILDER_TARBALL_URI | tar xz ./image-builder
+sudo install -m 0755 ./image-builder /usr/local/bin/image-builder
+cd -
+
