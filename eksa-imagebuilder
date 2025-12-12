@@ -1,6 +1,6 @@
 1) eksctl installation
 
-curl "https://github.com/eksctl-io/eksctl/releases/download/v0.219.0/eksctl_Linux_amd64.tar.gz ” \
+curl "https://github.com/eksctl-io/eksctl/releases/download/v0.219.0/eksctl_Linux_amd64.tar.gz"  \
     --silent --location \
     | tar xz -C /tmp
 sudo install -m 0755 /tmp/eksctl /usr/local/bin/eksctl
@@ -9,7 +9,7 @@ sudo install -m 0755 /tmp/eksctl /usr/local/bin/eksctl
 2) eksctl-anywhere installation
 
 RELEASE_VERSION=v0.24.1
-EKS_ANYWHERE_TARBALL_URL="https://anywhere-assets.eks.amazonaws.com/releases/eks-a/110/artifacts/eks-a/v0.24.1/linux/amd64/eksctl-anywhere-v0.24.1-linux-amd64.tar.gz”
+EKS_ANYWHERE_TARBALL_URL="https://anywhere-assets.eks.amazonaws.com/releases/eks-a/110/artifacts/eks-a/v0.24.1/linux/amd64/eksctl-anywhere-v0.24.1-linux-amd64.tar.gz"
 curl $EKS_ANYWHERE_TARBALL_URL \
     --silent --location \
     | tar xz ./eksctl-anywhere
